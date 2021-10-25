@@ -6,7 +6,9 @@ const gameboard = (() => {
     const squares = new Array(9)
 
     function makeXOrO(e) {
-        console.log(e)
+        if(e.target.className == "box x" || e.target.className == "box o") {
+            return;
+        }
         e.target.classList.add(`${currentPlayer.side}`)
         if (currentPlayer == player1) {
             currentPlayer = player2
@@ -64,8 +66,5 @@ const player = (playName) => {
 player1 = player("Jonathan")
 currentPlayer = player1
 let player2 = player("Bob")
-
-console.log(player1)
-console.log(player2)
 
 gameboard.generateBoard()
