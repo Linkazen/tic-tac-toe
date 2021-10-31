@@ -1,6 +1,20 @@
 html, body {
+    height: 100%;
+    width: 100%;
     padding: 0px;
     margin: 0px;
+}
+
+.box {
+    display: flex;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+.box:hover {
+    background-color: black;
 }
 
 #gameboard {
@@ -9,3 +23,19 @@ html, body {
     grid-template-rows: repeat(3, 1fr);
 }
 
+#centerboard {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.x::after {
+    content: "X";
+}
+
+.o::after {
+    content: "O";
+}
