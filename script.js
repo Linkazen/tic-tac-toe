@@ -5,12 +5,16 @@ let currentPlayer = undefined
 
 const gameboard = (() => {
     // squares values for use in magic circle in the game
-    const squares = [8, 1, 6, 3, 5, 7, 4, 9, 2]
+    let squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    // win condition values
+    let winNum = 15
+    let win = false
     
     function boardGen() {
+        squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         for(i = 0; i < squares.length; i++) {
             let gridNum = document.createElement("div")
-            gridNum.setAttribute(`id`, `grid${squares[i]}`)
+            gridNum.setAttribute(`id`, `grid${i}`)
             gridNum.setAttribute(`class`, `box`)
             gameArea.appendChild(gridNum)
         }
@@ -25,43 +29,39 @@ const gameboard = (() => {
             return;
         }
         e.target.classList.add(`${currentPlayer.side}`)
-        currentPlayer.squaresCleared.push(parseInt(e.target.id.substring(-1)))
-        if (winCondition == true) {
-            console.log("winner")
-        }
+        squares[e.target.id.slice(-1)] = `${currentPlayer.side}`
+        console.log(squares)
+        winCondition()
         if (currentPlayer == player1) {
             currentPlayer = player2
         } else {
             currentPlayer = player1
         }
     }
-    
+
     function winCondition() {
-        // win condition values
-        let winNum = 15
-        let win = false
-
-        if (player1.squaresCleared.length > 2 || player2.squaresCleared.length > 2) {
-            recursiveAddition([], currentPlayer.squaresCleared)
-            if (win == true) {
-                return true
-            }
-            return false
+        if ((squares[0] == "x" && squares[1] == "x" && squares[2] == "x") || 
+        (squares[3] == "x" && squares[4] == "x" && squares[5] == "x") ||
+        (squares[6] == "x" && squares[7] == "x" && squares[8] == "x") ||
+        (squares[0] == "x" && squares[3] == "x" && squares[6] == "x") ||
+        (squares[1] == "x" && squares[4] == "x" && squares[7] == "x") ||
+        (squares[2] == "x" && squares[5] == "x" && squares[8] == "x") ||
+        (squares[0] == "x" && squares[4] == "x" && squares[8] == "x") ||
+        (squares[2] == "x" && squares[4] == "x" && squares[6] == "x") ||
+        (squares[0] == "o" && squares[1] == "o" && squares[2] == "o") ||
+        (squares[3] == "o" && squares[4] == "o" && squares[5] == "o") ||
+        (squares[6] == "o" && squares[7] == "o" && squares[8] == "o") ||
+        (squares[0] == "o" && squares[3] == "o" && squares[6] == "o") ||
+        (squares[1] == "o" && squares[4] == "o" && squares[7] == "o") ||
+        (squares[2] == "o" && squares[5] == "o" && squares[8] == "o") ||
+        (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
+        (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
+            console.log(`${currentPlayer.side} wins`)
+        } else if (squares.includes(0) == false) {
+            console.log(`oopsie woopsie its a draw`)
         }
-        return false
-    }
+        return;
 
-    function recursiveAddition(emptyArr, playerScore) {
-        if (win === true) return;
-        if (playerScore.length > 0) {
-            let sum = emptyArr.concat(playerScore[0]).reduce(function(prev, curr) {return prev + curr;});
-            if (sum === winNum) {
-                win = true
-                return win
-            }
-            recursiveAddition(emptyArr.concat(playerScore[0]), playerScore.slice(1))
-            recursiveAddition(emptyArr, playerScore.slice(1))
-        }
     }
 
     return {
