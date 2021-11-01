@@ -64,6 +64,8 @@ const gameboard = (() => {
 
     }
 
+
+
     return {
         generateBoard: function() {
             boardGen();
@@ -95,9 +97,12 @@ const player = (playName) => {
     return { playName, score, side:side(), squaresCleared }
 }
 
+document.querySelector(".boardbtn").addEventListener("click", function() {
+    if (player1 == undefined && player2 == undefined) {
+        document.querySelector(".namesformout").style.display = "block"
+    }
+})
 
-player1 = player("Jonathan")
-player2 = player("Bob")
 currentPlayer = player1
 
 
