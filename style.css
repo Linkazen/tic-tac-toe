@@ -3,6 +3,7 @@ html, body {
     width: 100%;
     padding: 0px;
     margin: 0px;
+    background-color: orange;
 }
 
 .box {
@@ -12,6 +13,7 @@ html, body {
     justify-content: center;
     align-items: center;
     border: 1px solid black;
+    background-color: white;
 }
 
 .box:hover {
@@ -42,7 +44,18 @@ html, body {
     justify-content: center;
     align-items: center;
     align-content: center;
-    z-index: 10;
+    z-index: 2;
+
+}
+
+.namesformoutanim1 {
+    animation-name: form;
+    animation-duration: 1s;
+}
+
+.namesformoutanim2 {
+    animation-name: form2;
+    animation-duration: 1s;
 }
 
 .namesforminner {
@@ -52,6 +65,7 @@ html, body {
     width: 400px;
     justify-content: center;
     align-items: center;
+    background-color: white;
 }
 
 .textbox {
@@ -77,12 +91,65 @@ html, body {
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
+    z-index: 1;
+}
+
+#winscreen {
+    display: none;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes winscreen {
+    from {
+        opacity: 0.0;
+    }
+    
+}
+
+@keyframes form {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes form2 {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes enlargeletter {
+    from {
+        font-size: 0px;
+    }
+
+    to {
+        font-size: 80px;
+    }
 }
 
 .x::after {
     content: "X";
+    animation-name: enlargeletter;
+    animation-duration: 1s;
+    font-size: 80px;
 }
 
 .o::after {
     content: "O";
+    animation-name: enlargeletter;
+    animation-duration: 1s;
+    font-size: 80px;
 }

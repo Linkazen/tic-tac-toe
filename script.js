@@ -58,9 +58,8 @@ const gameboard = (() => {
         (squares[2] == "o" && squares[5] == "o" && squares[8] == "o") ||
         (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
         (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
-            console.log(`${currentPlayer.side} wins`)
             currentPlayer.score++
-            console.log(currentPlayer.playerNum)
+            document.querySelector("#winscreen").style.display = "flex"
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
             boardGen()
         } else if (squares.includes(0) == false) {
@@ -97,7 +96,7 @@ const player = (playName) => {
                 return 'x';
             }
         } else {
-            playerNum = "p2"
+            playerNum = "p1"
             if(Math.random() < 0.5) {
                 return "x"
             } else return "o"
@@ -107,10 +106,21 @@ const player = (playName) => {
     return { playName, score, side:side(), squaresCleared, playerNum }
 }
 
+function anims1() {
+    nameForm.classList.remove("namesformoutanim1")
+    nameForm.removeEventListener("animationend", anims1, false)
+}
+
+function anims2() {
+    nameForm.classList.remove("namesformoutanim2")
+    nameForm.style.display = "none"
+    nameForm.removeEventListener("animationend", anims2, false)
+}
+
 document.querySelector(".boardbtn").addEventListener("click", function() {
-    if (player1 == undefined && player2 == undefined) {
-        nameForm.style.display = "flex"
-    }
+    nameForm.style.display = "flex"
+    nameForm.addEventListener("animationend", anims1, false)
+    nameForm.classList.add("namesformoutanim1")
 })
 
 document.querySelector(".formbtn").addEventListener("click", function() {
@@ -127,7 +137,7 @@ document.querySelector(".formbtn").addEventListener("click", function() {
         scoreNums[i].style.display = "block"
     }
     document.querySelector("#gameboard").style.display = "grid"
-    currentPlayer = player1
-    nameForm.style.display = "none"
+    nameForm.addEventListener("animationend", anims2, false)
+    nameForm.classList.add("namesformoutanim2")
 })
 
