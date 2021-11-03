@@ -31,6 +31,7 @@ html, body {
 }
 
 .score {
+    display: none;
     margin: 0 20px 10px 20px;
 }
 
@@ -58,7 +59,7 @@ html, body {
 }
 
 #gameboard {
-    display: grid;
+    display: none;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     border: 10px solid black;

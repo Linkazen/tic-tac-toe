@@ -2,6 +2,7 @@ gameArea = document.querySelector(`#gameboard`)
 let player1 = undefined
 let player2 = undefined
 let currentPlayer = undefined
+let nameForm = document.querySelector(".namesformout")
 
 const gameboard = (() => {
     // squares values for use in magic circle in the game
@@ -99,11 +100,20 @@ const player = (playName) => {
 
 document.querySelector(".boardbtn").addEventListener("click", function() {
     if (player1 == undefined && player2 == undefined) {
-        document.querySelector(".namesformout").style.display = "flex"
+        nameForm.style.display = "flex"
     }
 })
 
-currentPlayer = player1
+document.querySelector(".formbtn").addEventListener("click", function() {
+    // player1 = document.querySelector("#nameForm")
+    console.log(document.querySelector("#nameForm"))
+    gameboard.generateBoard()
+    let scoreNums = document.querySelectorAll(".score")
+    for (i = 0; i < scoreNums.length; i++) {
+        scoreNums[i].style.display = "block"
+    }
+    document.querySelector("#gameboard").style.display = "grid"
+    currentPlayer = player1
+    nameForm.style.display = "none"
+})
 
-
-gameboard.generateBoard()
