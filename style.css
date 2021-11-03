@@ -58,6 +58,10 @@ html, body {
     margin-bottom: 20px;
 }
 
+.scoretxt {
+    text-align: center;
+}
+
 #gameboard {
     display: none;
     grid-template-columns: repeat(3, 1fr);

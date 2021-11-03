@@ -1,8 +1,8 @@
-gameArea = document.querySelector(`#gameboard`)
+const gameArea = document.querySelector(`#gameboard`)
+const nameForm = document.querySelector(".namesformout")
 let player1 = undefined
 let player2 = undefined
 let currentPlayer = undefined
-let nameForm = document.querySelector(".namesformout")
 
 const gameboard = (() => {
     // squares values for use in magic circle in the game
@@ -12,6 +12,7 @@ const gameboard = (() => {
     let win = false
     
     function boardGen() {
+        gameArea.innerHTML = ""
         squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         for(i = 0; i < squares.length; i++) {
             let gridNum = document.createElement("div")
@@ -58,8 +59,13 @@ const gameboard = (() => {
         (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
         (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
             console.log(`${currentPlayer.side} wins`)
+            currentPlayer.score++
+            console.log(currentPlayer.playerNum)
+            document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
+            boardGen()
         } else if (squares.includes(0) == false) {
             console.log(`oopsie woopsie its a draw`)
+            boardGen()
         }
         return;
 
@@ -79,9 +85,11 @@ const gameboard = (() => {
 const player = (playName) => {
     let score = 0
     let squaresCleared = []
+    let playerNum = "temp"
 
     function side() {
         if(player1 != undefined){
+            playerNum = "p2"
             switch (player1.side) {
             case 'x':
                 return 'o';
@@ -89,13 +97,14 @@ const player = (playName) => {
                 return 'x';
             }
         } else {
+            playerNum = "p2"
             if(Math.random() < 0.5) {
                 return "x"
             } else return "o"
         }
     }
 
-    return { playName, score, side:side(), squaresCleared }
+    return { playName, score, side:side(), squaresCleared, playerNum }
 }
 
 document.querySelector(".boardbtn").addEventListener("click", function() {
@@ -105,8 +114,13 @@ document.querySelector(".boardbtn").addEventListener("click", function() {
 })
 
 document.querySelector(".formbtn").addEventListener("click", function() {
-    // player1 = document.querySelector("#nameForm")
-    console.log(document.querySelector("#nameForm"))
+    player1 = player(document.querySelector("#nameForm")[0].value)
+    player2 = player(document.querySelector("#nameForm")[1].value)
+    if (currentPlayer == undefined || currentPlayer == player2) {
+        currentPlayer = player1
+    } else {
+        currentPlayer = player2
+    }
     gameboard.generateBoard()
     let scoreNums = document.querySelectorAll(".score")
     for (i = 0; i < scoreNums.length; i++) {
