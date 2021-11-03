@@ -59,12 +59,25 @@ const gameboard = (() => {
         (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
         (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
             currentPlayer.score++
-            document.querySelector("#winscreen").style.display = "flex"
+            let winscreen = document.querySelector("#winscreen")
+            winscreen.style.display = "flex"
+            winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
-            boardGen()
+            document.querySelector("#winscreen").addEventListener("animationend", function() {
+                winscreen.style.display = "none"
+                winscreen.classList.remove("winscreenanimation")
+                boardGen()
+            })
         } else if (squares.includes(0) == false) {
-            console.log(`oopsie woopsie its a draw`)
-            boardGen()
+            let winscreen = document.querySelector("#winscreen")
+            winscreen.style.display = "flex"
+            winscreen.classList.add("winscreenanimation")
+            document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
+            document.querySelector("#winscreen").addEventListener("animationend", function() {
+                winscreen.style.display = "none"
+                winscreen.classList.remove("winscreenanimation")
+                boardGen()
+            })
         }
         return;
 
@@ -140,4 +153,3 @@ document.querySelector(".formbtn").addEventListener("click", function() {
     nameForm.addEventListener("animationend", anims2, false)
     nameForm.classList.add("namesformoutanim2")
 })
-
