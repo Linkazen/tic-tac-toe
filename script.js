@@ -3,6 +3,7 @@ const nameForm = document.querySelector(".namesformout")
 let player1 = undefined
 let player2 = undefined
 let currentPlayer = undefined
+let cpubtn = document.querySelector("#cpucheck")
 
 const gameboard = (() => {
     let squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -34,7 +35,6 @@ const gameboard = (() => {
         }
         e.target.classList.add(`${currentPlayer.side}`)
         squares[e.target.id.slice(-1)] = `${currentPlayer.side}`
-        console.log(squares)
         winCondition()
         if (currentPlayer == player1) {
             currentPlayer = player2
@@ -82,23 +82,21 @@ const gameboard = (() => {
             })
         }
         return;
-
     }
 
     return {
         generateBoard: function() {
             boardGen();
-        }
+        },
+        board: squares
     }   
 })()
 
 // constructor that gives each player a name and side
-const player = (playName) => {
+const player = (playerName) => {
+    let playName = playerName
     let score = 0
-    let squaresCleared = []
     let playerNum = "temp"
-
-
 
     function side() {
         if(player1 != undefined){
@@ -117,7 +115,7 @@ const player = (playName) => {
         }
     }
 
-    return { playName, score, side:side(), squaresCleared, playerNum }
+    return { playName, score, side:side(), playerNum }
 }
 
 // functions for adding and taking away the animations
@@ -142,7 +140,11 @@ document.querySelector(".boardbtn").addEventListener("click", function() {
 // button for after filling in the form
 document.querySelector(".formbtn").addEventListener("click", function() {
     player1 = player(document.querySelector("#nameForm")[0].value)
-    player2 = player(document.querySelector("#nameForm")[1].value)
+    if (cpubtn.checked == true) {
+        player2 = player("Jeff")
+    }else {
+        player2 = player(document.querySelector("#nameForm")[1].value)
+    }
     document.querySelector(`#p1Score`).textContent = `0`
     document.querySelector(`#p2Score`).textContent = `0`
     if (currentPlayer == undefined || currentPlayer == player2) {
@@ -161,7 +163,7 @@ document.querySelector(".formbtn").addEventListener("click", function() {
 })
 
 // checks whether or not the cpu is enabled
-document.querySelector("#cpucheck").addEventListener("change", function() {
+cpubtn.addEventListener("change", function() {
     let player2txt = document.querySelector("#twoname")
     if (this.checked == true) {
         player2txt.disabled = "true"
