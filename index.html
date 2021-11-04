@@ -14,11 +14,15 @@
             <form id="nameForm" action="">
                 <label for="1name">First Players Name:</label>
                 <div class="break"></div>
-                <input type="text" class="textbox" name="1name" id="1name">
+                <input type="text" class="textbox" name="1name" id="onename">
                 <div class="break"></div>
                 <label for="2name">Second Players Name:</label>
                 <div class="break"></div>
-                <input type="text" class="textbox" name="2name" id="2name">
+                <input type="text" class="textbox" name="2name" id="twoname">
+                <div class="break"></div>
+                <label for="cpucheck">Enable CPU</label>
+                <div class="break"></div>
+                <input type="checkbox" name="cpucheck" id="cpucheck">
                 <div class="break"></div>
                 <input type="button" class="formbtn" value="Play">
             </form>
@@ -26,12 +30,12 @@
     </div>
 
     <div id="winscreen">
-        <div id="winscreentext">player wins</div>
+        <div id="winscreentext"></div>
     </div>
 
     <div id="centerboard"> 
-        <div class="score">Player 1 Score: <div id="p1Score" class="scoretxt">0</div></div>
-        <div class="score">Player 2 Score: <div id="p2Score" class="scoretxt">0</div></div>
+        <div class="score">Player 1<br><div id="p1name"></div> Score: <div id="p1Score" class="scoretxt">0</div></div>
+        <div class="score">Player 2<br><div id="p2name"></div> Score: <div id="p2Score" class="scoretxt">0</div></div>
         <div class="break"></div>
         <div id="gameboard">
             

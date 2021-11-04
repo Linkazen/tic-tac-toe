@@ -5,15 +5,17 @@ let player2 = undefined
 let currentPlayer = undefined
 
 const gameboard = (() => {
-    // squares values for use in magic circle in the game
     let squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     // win condition values
     let winNum = 15
     let win = false
+    let winscreen = document.querySelector("#winscreen")
     
     function boardGen() {
         gameArea.innerHTML = ""
         squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        document.querySelector(`#p1name`).textContent = `(${player1.playName})`
+        document.querySelector(`#p2name`).textContent = `(${player2.playName})`
         for(i = 0; i < squares.length; i++) {
             let gridNum = document.createElement("div")
             gridNum.setAttribute(`id`, `grid${i}`)
@@ -59,8 +61,8 @@ const gameboard = (() => {
         (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
         (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
             currentPlayer.score++
-            let winscreen = document.querySelector("#winscreen")
             winscreen.style.display = "flex"
+            winscreen.textContent = `${currentPlayer.playName} wins`
             winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
             document.querySelector("#winscreen").addEventListener("animationend", function() {
@@ -69,7 +71,7 @@ const gameboard = (() => {
                 boardGen()
             })
         } else if (squares.includes(0) == false) {
-            let winscreen = document.querySelector("#winscreen")
+            winscreen.textContent = "It's a draw"
             winscreen.style.display = "flex"
             winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
@@ -83,8 +85,6 @@ const gameboard = (() => {
 
     }
 
-
-
     return {
         generateBoard: function() {
             boardGen();
@@ -92,12 +92,13 @@ const gameboard = (() => {
     }   
 })()
 
-
 // constructor that gives each player a name and side
 const player = (playName) => {
     let score = 0
     let squaresCleared = []
     let playerNum = "temp"
+
+
 
     function side() {
         if(player1 != undefined){
@@ -119,6 +120,7 @@ const player = (playName) => {
     return { playName, score, side:side(), squaresCleared, playerNum }
 }
 
+// functions for adding and taking away the animations
 function anims1() {
     nameForm.classList.remove("namesformoutanim1")
     nameForm.removeEventListener("animationend", anims1, false)
@@ -130,15 +132,19 @@ function anims2() {
     nameForm.removeEventListener("animationend", anims2, false)
 }
 
+// button for bringing up the form and making a new game
 document.querySelector(".boardbtn").addEventListener("click", function() {
     nameForm.style.display = "flex"
     nameForm.addEventListener("animationend", anims1, false)
     nameForm.classList.add("namesformoutanim1")
 })
 
+// button for after filling in the form
 document.querySelector(".formbtn").addEventListener("click", function() {
     player1 = player(document.querySelector("#nameForm")[0].value)
     player2 = player(document.querySelector("#nameForm")[1].value)
+    document.querySelector(`#p1Score`).textContent = `0`
+    document.querySelector(`#p2Score`).textContent = `0`
     if (currentPlayer == undefined || currentPlayer == player2) {
         currentPlayer = player1
     } else {
@@ -152,4 +158,14 @@ document.querySelector(".formbtn").addEventListener("click", function() {
     document.querySelector("#gameboard").style.display = "grid"
     nameForm.addEventListener("animationend", anims2, false)
     nameForm.classList.add("namesformoutanim2")
+})
+
+// checks whether or not the cpu is enabled
+document.querySelector("#cpucheck").addEventListener("change", function() {
+    let player2txt = document.querySelector("#twoname")
+    if (this.checked == true) {
+        player2txt.disabled = "true"
+    } else {
+        player2txt.disabled = ""
+    }
 })
