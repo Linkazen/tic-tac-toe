@@ -14,6 +14,7 @@ const gameboard = (() => {
     let winscreen = document.querySelector("#winscreen")
     let ranNum = 0
     let boxestwo = undefined
+    let player1woncheck = false
     
     function boardGen() {
         gameArea.innerHTML = ""
@@ -29,6 +30,9 @@ const gameboard = (() => {
         let boxes = document.querySelectorAll(`.box`)
         for(i = 0; i < boxes.length; i++) {
             boxes[i].addEventListener('click', makeXOrO)
+        }
+        if (currentPlayer == player2 && cpubtn.checked == true) {
+            cpuMove()
         }
     }
 
@@ -59,9 +63,11 @@ const gameboard = (() => {
         } else {
             currentPlayer = player1
         }
-        if (currentPlayer == player2 && cpubtn.checked == true) {
+        if (currentPlayer == player2 && cpubtn.checked == true && player1woncheck == false) {
             cpuMove()
         }
+        console.log("hello")
+        player1woncheck = false
     }
 
     function winCondition() {
@@ -86,6 +92,9 @@ const gameboard = (() => {
             winscreen.textContent = `${currentPlayer.playName} wins`
             winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
+            if (currentPlayer == player1) {
+                player1woncheck = true
+            }
             document.querySelector("#winscreen").addEventListener("animationend", function() {
                 winscreen.style.display = "none"
                 winscreen.classList.remove("winscreenanimation")
@@ -160,6 +169,9 @@ document.querySelector(".boardbtn").addEventListener("click", function() {
 
 // button for after filling in the form
 document.querySelector(".formbtn").addEventListener("click", function() {
+    if (document.querySelector("#nameForm")[0].value == "" || (document.querySelector("#nameForm")[1].value == "" && cpubtn.checked == false)) {
+        return
+    }
     player1 = player(document.querySelector("#nameForm")[0].value)
     if (cpubtn.checked == true) {
         player2 = player("Jeff")
