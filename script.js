@@ -7,7 +7,6 @@ let cpubtn = document.querySelector("#cpucheck")
 
 const gameboard = (() => {
     let squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-    let tempsquares = []
     // win condition values
     let winNum = 15
     let win = false
@@ -31,6 +30,7 @@ const gameboard = (() => {
         for(i = 0; i < boxes.length; i++) {
             boxes[i].addEventListener('click', makeXOrO)
         }
+        console.log(currentPlayer)
         if (currentPlayer == player2 && cpubtn.checked == true) {
             cpuMove()
         }
@@ -39,14 +39,12 @@ const gameboard = (() => {
     function cpuMove() {       
         boxestwo = document.querySelectorAll(`.box`)
         ranNum = Math.round(Math.random() * 8)
-        console.log(ranNum)
         tempsquares = squares
         if (squares.includes(0) == false) {
             return
         } else if (boxestwo[ranNum].className == "box o" || boxestwo[ranNum].className == "box x") {
             cpuMove()
         } else {
-            console.log(boxestwo)
             boxestwo[ranNum].click()
         }
     }
@@ -66,8 +64,14 @@ const gameboard = (() => {
         if (currentPlayer == player2 && cpubtn.checked == true && player1woncheck == false) {
             cpuMove()
         }
-        console.log("hello")
         player1woncheck = false
+    }
+
+    function eventlistenerwin() {
+        winscreen.style.display = "none"
+        winscreen.classList.remove("winscreenanimation")
+        boardGen()
+        document.querySelector("#winscreen").removeEventListener("animationend", eventlistenerwin)
     }
 
     function winCondition() {
@@ -95,21 +99,13 @@ const gameboard = (() => {
             if (currentPlayer == player1) {
                 player1woncheck = true
             }
-            document.querySelector("#winscreen").addEventListener("animationend", function() {
-                winscreen.style.display = "none"
-                winscreen.classList.remove("winscreenanimation")
-                boardGen()
-            })
+            document.querySelector("#winscreen").addEventListener("animationend", eventlistenerwin)
         } else if (squares.includes(0) == false) {
             winscreen.textContent = "It's a draw"
             winscreen.style.display = "flex"
             winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
-            document.querySelector("#winscreen").addEventListener("animationend", function() {
-                winscreen.style.display = "none"
-                winscreen.classList.remove("winscreenanimation")
-                boardGen()
-            })
+            document.querySelector("#winscreen").addEventListener("animationend", eventlistenerwin)
         }
         return;
     }
