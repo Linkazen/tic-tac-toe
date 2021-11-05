@@ -7,10 +7,13 @@ let cpubtn = document.querySelector("#cpucheck")
 
 const gameboard = (() => {
     let squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let tempsquares = []
     // win condition values
     let winNum = 15
     let win = false
     let winscreen = document.querySelector("#winscreen")
+    let ranNum = 0
+    let boxestwo = undefined
     
     function boardGen() {
         gameArea.innerHTML = ""
@@ -28,6 +31,21 @@ const gameboard = (() => {
             boxes[i].addEventListener('click', makeXOrO)
         }
     }
+
+    function cpuMove() {       
+        boxestwo = document.querySelectorAll(`.box`)
+        ranNum = Math.round(Math.random() * 8)
+        console.log(ranNum)
+        tempsquares = squares
+        if (squares.includes(0) == false) {
+            return
+        } else if (boxestwo[ranNum].className == "box o" || boxestwo[ranNum].className == "box x") {
+            cpuMove()
+        } else {
+            console.log(boxestwo)
+            boxestwo[ranNum].click()
+        }
+    }
     
     function makeXOrO(e) {
         if(e.target.className == "box x" || e.target.className == "box o") {
@@ -40,6 +58,9 @@ const gameboard = (() => {
             currentPlayer = player2
         } else {
             currentPlayer = player1
+        }
+        if (currentPlayer == player2 && cpubtn.checked == true) {
+            cpuMove()
         }
     }
 
@@ -162,7 +183,7 @@ document.querySelector(".formbtn").addEventListener("click", function() {
     nameForm.classList.add("namesformoutanim2")
 })
 
-// checks whether or not the cpu is enabled
+// disables the player2 name box if the cpu is ticked
 cpubtn.addEventListener("change", function() {
     let player2txt = document.querySelector("#twoname")
     if (this.checked == true) {
