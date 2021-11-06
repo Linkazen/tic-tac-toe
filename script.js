@@ -18,19 +18,22 @@ const gameboard = (() => {
     function boardGen() {
         gameArea.innerHTML = ""
         squares = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
         document.querySelector(`#p1name`).textContent = `(${player1.playName})`
         document.querySelector(`#p2name`).textContent = `(${player2.playName})`
+
         for(i = 0; i < squares.length; i++) {
             let gridNum = document.createElement("div")
             gridNum.setAttribute(`id`, `grid${i}`)
             gridNum.setAttribute(`class`, `box`)
             gameArea.appendChild(gridNum)
         }
+
         let boxes = document.querySelectorAll(`.box`)
         for(i = 0; i < boxes.length; i++) {
             boxes[i].addEventListener('click', makeXOrO)
         }
-        console.log(currentPlayer)
+
         if (currentPlayer == player2 && cpubtn.checked == true) {
             cpuMove()
         }
@@ -40,6 +43,7 @@ const gameboard = (() => {
         boxestwo = document.querySelectorAll(`.box`)
         ranNum = Math.round(Math.random() * 8)
         tempsquares = squares
+
         if (squares.includes(0) == false) {
             return
         } else if (boxestwo[ranNum].className == "box o" || boxestwo[ranNum].className == "box x") {
@@ -53,9 +57,12 @@ const gameboard = (() => {
         if(e.target.className == "box x" || e.target.className == "box o") {
             return;
         }
+
         e.target.classList.add(`${currentPlayer.side}`)
         squares[e.target.id.slice(-1)] = `${currentPlayer.side}`
+
         winCondition()
+
         if (currentPlayer == player1) {
             currentPlayer = player2
         } else {
@@ -64,6 +71,7 @@ const gameboard = (() => {
         if (currentPlayer == player2 && cpubtn.checked == true && player1woncheck == false) {
             cpuMove()
         }
+
         player1woncheck = false
     }
 
@@ -92,18 +100,23 @@ const gameboard = (() => {
         (squares[0] == "o" && squares[4] == "o" && squares[8] == "o") ||
         (squares[2] == "o" && squares[4] == "o" && squares[6] == "o")) {
             currentPlayer.score++
+
             winscreen.style.display = "flex"
             winscreen.textContent = `${currentPlayer.playName} wins`
             winscreen.classList.add("winscreenanimation")
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
+
             if (currentPlayer == player1) {
                 player1woncheck = true
             }
+
             document.querySelector("#winscreen").addEventListener("animationend", eventlistenerwin)
+
         } else if (squares.includes(0) == false) {
             winscreen.textContent = "It's a draw"
             winscreen.style.display = "flex"
             winscreen.classList.add("winscreenanimation")
+
             document.querySelector(`#${currentPlayer.playerNum}Score`).textContent = `${currentPlayer.score}`
             document.querySelector("#winscreen").addEventListener("animationend", eventlistenerwin)
         }
@@ -161,6 +174,7 @@ document.querySelector(".boardbtn").addEventListener("click", function() {
     nameForm.style.display = "flex"
     nameForm.addEventListener("animationend", anims1, false)
     nameForm.classList.add("namesformoutanim1")
+
     if (cpubtn.checked == true) {
         document.querySelector("#twoname").disabled = "true"
     }
@@ -171,20 +185,25 @@ document.querySelector(".formbtn").addEventListener("click", function() {
     if (document.querySelector("#nameForm")[0].value == "" || (document.querySelector("#nameForm")[1].value == "" && cpubtn.checked == false)) {
         return
     }
+    player1 = undefined
     player1 = player(document.querySelector("#nameForm")[0].value)
     if (cpubtn.checked == true) {
         player2 = player("Jeff")
     }else {
         player2 = player(document.querySelector("#nameForm")[1].value)
     }
+
     document.querySelector(`#p1Score`).textContent = `0`
     document.querySelector(`#p2Score`).textContent = `0`
+
     currentPlayer = player1
     gameboard.generateBoard()
     let scoreNums = document.querySelectorAll(".score")
+
     for (i = 0; i < scoreNums.length; i++) {
         scoreNums[i].style.display = "block"
     }
+
     document.querySelector("#gameboard").style.display = "grid"
     nameForm.addEventListener("animationend", anims2, false)
     nameForm.classList.add("namesformoutanim2")
@@ -193,6 +212,7 @@ document.querySelector(".formbtn").addEventListener("click", function() {
 // disables the player2 name box if the cpu is ticked
 cpubtn.addEventListener("change", function() {
     let player2txt = document.querySelector("#twoname")
+
     if (this.checked == true) {
         player2txt.disabled = "true"
     } else {
