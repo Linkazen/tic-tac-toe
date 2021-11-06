@@ -161,6 +161,9 @@ document.querySelector(".boardbtn").addEventListener("click", function() {
     nameForm.style.display = "flex"
     nameForm.addEventListener("animationend", anims1, false)
     nameForm.classList.add("namesformoutanim1")
+    if (cpubtn.checked == true) {
+        document.querySelector("#twoname").disabled = "true"
+    }
 })
 
 // button for after filling in the form
@@ -176,11 +179,7 @@ document.querySelector(".formbtn").addEventListener("click", function() {
     }
     document.querySelector(`#p1Score`).textContent = `0`
     document.querySelector(`#p2Score`).textContent = `0`
-    if (currentPlayer == undefined || currentPlayer == player2) {
-        currentPlayer = player1
-    } else {
-        currentPlayer = player2
-    }
+    currentPlayer = player1
     gameboard.generateBoard()
     let scoreNums = document.querySelectorAll(".score")
     for (i = 0; i < scoreNums.length; i++) {
